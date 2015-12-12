@@ -28,8 +28,8 @@ class Process(APIView):
 
         # keyword =  request.data["body"]
         parsed_content = request.query_params.get("Body").split(' ')
-        keyword= parsed_content[0]
-        body = " ".join(parsed_content[1:])
+        keyword= parsed_content[0].lower()
+        body = (" ".join(parsed_content[1:])).lower()
         print body, keyword
         if keyword=="wiki":
             body = utils.process_wiki(body)
