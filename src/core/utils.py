@@ -46,19 +46,16 @@ def process_dictionary(word):
     return meaning[:-1]
 
 def custom_send_email(msg):
-    sg = sendgrid.SendGridClient(api)
-
     msg = msg.split(' ')
-    if msg[0] is "email":
-        from_email = msg[1]
-        to_email = msg[2]
-        body = " ".join(msg[3:])
-        sg = sendgrid.SendGridClient()
-        message = sendgrid.Mail(to=to_email, subject="Urgent Emails", text=body, from_email=from_email)
-        status, msg = sg.send(message)
-
-    print status, msg
-    if status=="200":
+    from_email = msg[0]
+    to_email = msg[1]
+    body = " ".join(msg[2:])
+    sg = sendgrid.SendGridClient(api)
+    message = sendgrid.Mail(to=to_email, subject="Urgent Emails", text=body, from_email=from_email)
+    status, msg = sg.send(message)
+    print "status", status
+    print "msg" ,msg
+    if status==200:
         return "Email has been sent!"
     else:
         return "Email sending is delayed we are on it!"
