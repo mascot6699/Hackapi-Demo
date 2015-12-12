@@ -23,24 +23,18 @@ class Process(APIView):
         Date	string, Time when the SMS reached Exotel's servers
         Body	string, the contents of the SMS
         """
-        print  request.data["body"]
+        # print  request.data["body"]
         # print  request.data[1]
 
-        keyword =  request.data["body"]
-        # if keyword=="wiki":
-        body = utils.process_wiki(keyword)
-        # elif keyword=="dictionary":
-        #     body = utils.process_dictionary(request.data[1])
-        return Response({"body":body}, status=status.HTTP_200_OK)
+        # keyword =  request.data["body"]
+        parsed_content = request.query_params.get("Body").split(' ')
+        keyword= parsed_content[0]
+        body = " ".join(parsed_content[1:])
+        print body, keyword
+        if keyword=="wiki":
+            body = utils.process_wiki(body)
+        elif keyword=="dictionary":
+            body = utils.process_dictionary(body)
+        return Response(body, status=status.HTTP_200_OK, content_type="text/plain")
 
-    def post(self, request, format=None):
-        """
-        Creates a template
-        """
-        return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, id, format=None):
-        """
-        To change name of the template and its type
-        """
-        return Response({}, status=status.HTTP_400_BAD_REQUEST)
