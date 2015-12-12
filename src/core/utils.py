@@ -4,11 +4,13 @@
 from pprint import pprint
 import requests
 from django.conf import settings
-import wikipedia
 from PyDictionary import PyDictionary
+import wikipedia
+import sendgrid
 
 sid = settings.EXOTEL_SID
 token = settings.EXOTEL_TOKEN
+api = settings.SENDGRID_API_TOKEN
 
 
 def send_message(sid, token, sms_from, sms_to, sms_body):
@@ -42,3 +44,24 @@ def process_dictionary(word):
     for idx in l:
         meaning += idx[0] + ":" + idx[1] + ", "
     return meaning[:-1]
+
+def custom_send_email(msg):
+    sg = sendgrid.SendGridClient(api)
+
+    msg = msg.split(' ')
+    if msg[0] is "email":
+        from_email = msg[1]
+        to_email = msg[2]
+        body = " ".join(msg[3:])
+        sg = sendgrid.SendGridClient()
+        message = sendgrid.Mail(to=to_email, subject="Urgent Emails", text=body, from_email=from_email)
+        status, msg = sg.send(message)
+
+    print status, msg
+    if status=="200":
+        return "Email has been sent!"
+    else:
+        return "Email sending is delayed we are on it!"
+
+    return " "
+

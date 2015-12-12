@@ -23,18 +23,18 @@ class Process(APIView):
         Date	string, Time when the SMS reached Exotel's servers
         Body	string, the contents of the SMS
         """
-        # print  request.data["body"]
-        # print  request.data[1]
 
-        # keyword =  request.data["body"]
         parsed_content = request.query_params.get("Body").split(' ')
-        keyword= parsed_content[0].lower()
-        body = (" ".join(parsed_content[1:])).lower()
+        # garbage = parsed_content[0].lower()
+        keyword= parsed_content[1].lower()
+        body = (" ".join(parsed_content[2:])).lower()
         print body, keyword
         if keyword=="wiki":
             body = utils.process_wiki(body)
         elif keyword=="dictionary":
             body = utils.process_dictionary(body)
+        elif keyword=="email":
+            body = utils.custom_send_email(body)
         return Response(body, status=status.HTTP_200_OK, content_type="text/plain")
 
 
