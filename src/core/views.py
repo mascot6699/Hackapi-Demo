@@ -29,11 +29,15 @@ class Process(APIView):
         keyword= parsed_content[1].lower()
         body = (" ".join(parsed_content[2:])).lower()
         print body, keyword
+        if keyword=="hello":
+            body = utils.get_help()
         if keyword=="wiki":
             body = utils.process_wiki(body)
         elif keyword=="dictionary":
             body = utils.process_dictionary(body)
         elif keyword=="email":
+            body = utils.custom_send_email(body)
+        elif keyword=="song":
             body = utils.custom_send_email(body)
         return Response(body, status=status.HTTP_200_OK, content_type="text/plain")
 
