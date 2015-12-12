@@ -34,4 +34,11 @@ def process_wiki(word):
     return wikipedia.summary(word)
 
 def process_dictionary(word):
-    return wikipedia.summary(word)
+    meaning = "You searched for the word {}.  "
+    dictionary = PyDictionary(word)
+    our_meaning = dictionary.getMeanings()
+    meaning = meaning.format(our_meaning.keys()[0])
+    l = zip(our_meaning.values()[0].keys(),our_meaning.values()[0].values()[0])
+    for idx in l:
+        meaning += idx[0] + ":" + idx[1] + ", "
+    return meaning[:-1]
