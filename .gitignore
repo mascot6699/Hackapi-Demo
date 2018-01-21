@@ -57,3 +57,7 @@ Desktop.ini
 
 # Project settings
 ./site/
+.idea/
+
+# virtualenv
+src/
