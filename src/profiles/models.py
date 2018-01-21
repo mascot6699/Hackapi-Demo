@@ -31,8 +31,9 @@ class Profile(BaseProfile):
 
 
 
-
 class Contracts(models.Model):
-    requester = models.OneToOneField(Profile)
-    requestee = models.OneToOneField(Profile)
+    user = models.OneToOneField(Profile, related_name="requested_contracts_to_user")
+    requester = models.OneToOneField(Profile, related_name="entity_requested_contracts")
     is_served = models.BooleanField("has request been served", default=False)
+    blockchain_transaction_id = models.TextField("blockchain trx id", default=False)
+    raw_data = models.TextField("debug_data", default=False)
