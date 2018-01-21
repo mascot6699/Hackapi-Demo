@@ -30,7 +30,6 @@ class Profile(BaseProfile):
         return "{}'s profile". format(self.user)
 
 
-
 class Contracts(models.Model):
     user = models.OneToOneField(Profile, related_name="requested_contracts_to_user")
     requester = models.OneToOneField(Profile, related_name="entity_requested_contracts")
